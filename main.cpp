@@ -8,12 +8,14 @@ int main(int argc ,char* argv[]) {
 	string operateword;
     string paramater=argv[1];
 	WCclass test;
-		for (int i = 2; i < argc + 1; i++) {
+		
+	for (int i = 2; i < argc + 1; i++) 
+	{
 			temp = filepath;
 			filename = argv[i];
 			filename = temp + "\\" + filename;
 			test.fileoperate(filename, paramater);
-		}
+	}
 		
 	return 0;
 

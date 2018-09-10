@@ -9,6 +9,7 @@ using namespace std;
 class WCclass
 {
 public:
+	
 	WCclass();
 	~WCclass();
 	void wordcount();
@@ -19,7 +20,9 @@ public:
 	void fileoperate(string filename,string paramater);
 	void emptyrowcount();
 	void noterowcount();
+
 private:
+
 	int wordnums;
 	int rownums;
 	int charnums;

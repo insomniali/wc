@@ -18,52 +18,67 @@ WCclass::~WCclass()
 	free(filegroup);
 }
 
-void WCclass::wordcount() {
+void WCclass::wordcount() 
+{
 	wordnums++;
 }
 
-void WCclass::rowcount() {
+void WCclass::rowcount() 
+{
 	rownums++;
 }
 
-void WCclass::charcount() {
+void WCclass::charcount()
+{
 	charnums++;
 }
 
-void WCclass::cnwordcount() {
+void WCclass::cnwordcount()
+{
 	cnwordnums++;
 }
 
-void WCclass::digitcount() {
+void WCclass::digitcount() 
+{
 	digitnums++;
 }
 
-void WCclass::emptyrowcount() {
+void WCclass::emptyrowcount() 
+{
 	emptyrow++;
 }
 
-void WCclass::noterowcount() {
+void WCclass::noterowcount()
+{
 	noterow++;
 }
 
-void WCclass::fileoperate(string filename, string paramater) {
-	ifstream fin(filename.c_str());
-	//std::cout << filename << endl;
+void WCclass::fileoperate(string filename, string paramater) 
+{
+	ifstream fin(filename.c_str());              //获取文件名，打开输入流
+	if (fin.is_open() == false) {
+		cout << "文件名输入错误" << endl;
+		return;
+	}
+
 	char ch;
 	string str;
 	char **strs;
+	                                            //可输入参数类型
 	string paramater1 = "-c";
 	string paramater2 = "-w";
 	string paramater3 = "-l";
 	string paramater4 = "-d";
 	string paramater5 = "-s";
 	string paramater6 = "-a";
+
 	strs = (char**)malloc(sizeof(char) * 256);
 	
 	while (getline(fin, str))
 	{
 		int strcount = 0;
 		rowcount();
+
 		if (str.length() == 0)emptyrowcount();
 
 		strs[strcount] = strtok((char*)str.c_str(), " ");
@@ -73,24 +88,27 @@ void WCclass::fileoperate(string filename, string paramater) {
 			strcount++;
 			strs[strcount] = strtok(NULL, " ");
 		}
-		for (int i = 0; i < strcount; i++) {
-			//printf("%s\n", strs[i]);
+
+		for (int i = 0; i < strcount; i++) 
+		{
 			string temp = strs[i];
 			int continuectrl = 0;//控制单词连续
 			int dqmoff = 0;//双引号是否闭合
 			int flag = 0;////是否相邻
-			for (int j = 0; j < temp.length(); j++) {
+			for (int j = 0; j < temp.length(); j++) 
+			{
 				ch = temp[j];
-				//printf("%c", ch);
 				if ((ch >= 33 && ch <= 47) || (ch >= 58 && ch <= 64) || (ch >= 91 && ch <= 96) || (ch >= 123 && ch <= 126))
 				{
 					charcount();
 					continuectrl = 0;
-					if (ch == 34) {
+					if (ch == 34) 
+					{
 						if (dqmoff == 1)dqmoff = 0;
 						dqmoff = 1;
 					}
-					if (ch == 47) {
+					if (ch == 47) 
+					{
 						if (dqmoff == 0)
 						{
 							if (flag == 1)noterowcount();
@@ -123,7 +141,7 @@ void WCclass::fileoperate(string filename, string paramater) {
 	else if (paramater == paramater5) 
 	{
 		filegroup = (string*)malloc(sizeof(string) * 256);
-		filegroup=listFiles(filename.c_str(), filegroup);
+		filegroup=listFiles(filename.c_str(), filegroup);            //获取递归处理文件的文件名数组
 		for (int i = 0; filegroup[i].length() != 0; i++) {
 			std::cout << filegroup[i] << endl;
 			fileoperate(filegroup[i], paramater1);
